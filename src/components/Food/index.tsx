@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import {FiEdit3, FiTrash} from 'react-icons/fi';
 
+import img from '../../assets/Churrasco_Tradicional.png';
 import {Container} from './styles';
 
 interface IFoodCard {
@@ -36,7 +37,7 @@ const Food: React.FC<IProps> = ({
   return (
     <Container available={isAvailable}>
       <header>
-        <img src={food.image} alt={food.name}/>
+        <img src={img} alt="churras"/>
       </header>
       <section className="body">
         <h2>Churrasco Premium</h2>

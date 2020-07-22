@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+import Header from '../../components/Header';
 import Food from '../../components/Food';
+//import ModalAddFood from '../../components/Modal';
 
 import {FoodsContainer} from './styles';
 
@@ -36,12 +38,19 @@ const Dashboard: React.FC = () => {
     available: true,
   }
 
+  async function handleAddFood(food: Omit<IFoodCard, 'id' | 'available'>): Promise<void>{
+  }
+
   function handleDeleteFood(id: number): void {
     //await api.delete(`/foods/${id}`);
 
     const filterFoods = foods.filter(food => food.id !== id);
     
     setFoods(filterFoods);
+  }
+
+  function toggleModal(): void {
+    setModalOpen(!modalOpen);
   }
 
   function handleEditFood(food: IFoodCard): void {
@@ -51,6 +60,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
+      <Header openModal={toggleModal}/>
       <FoodsContainer>
         <Food
           food={Foods}
