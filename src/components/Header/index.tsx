@@ -13,14 +13,18 @@ const Header: React.FC<IHeaderProps> = ({openModal}) => (
     <header>
       <nav>
         <form>
-          <input />
-          <select>
-            <option>Churrasco</option>
-            <option>Pizza</option>
-            <option>Japonesa</option>
-            <option>Crepe</option>
-          </select>
-          De: <input/> a: <input />
+          <label>
+            Tipo de comida: <select id="type">
+              <option value="churrasco">Churrasco</option>
+              <option value="pizza">Pizza</option>
+              <option value="japonesa">Japonesa</option>
+              <option value="crepe">Crepe</option>
+            </select>
+          </label>
+          
+          <label>
+            De: <input placeholder="R$/Pessoa"/> a: <input placeholder="R$/Pessoa"/>
+          </label>
         </form>
         <button
           type="button"
@@ -28,10 +32,10 @@ const Header: React.FC<IHeaderProps> = ({openModal}) => (
             openModal();
           }}
         >
-          <div className="text">Buscar</div>
           <div className="icon">
             <FiSearch size={18} />
           </div>
+          <div className="text">Buscar</div>
         </button>
       </nav>
     </header>

@@ -1,24 +1,35 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background: #FFB84D;
+  background: #FFFFFF;
   padding: 30px 0;
+  border-bottom: 1px solid #000;
+  color: #000;
 
   header {
     width: 1280px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
     nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      form {
+        label {
+          select {
+            margin-right: 25px;
+          }
+        }
+      }
+
       button {
         font-weight: 600;
         border-radius: 8px;
         border: 0;
-        background: #39b100;
+        background: #ff9900;
         color: #fff;
-
+        margin-left: 10px;
         display: flex;
         flex-direction: row;
         align-items: center;

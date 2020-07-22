@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 import Food from '../../components/Food';
 //import ModalAddFood from '../../components/Modal';
 
-import {FoodsContainer} from './styles';
+import { FoodsContainer, Title } from './styles';
 
 interface IFoodCard {
   id: number;
@@ -61,7 +61,9 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header openModal={toggleModal}/>
+      <Title>Cardápios</Title>
       <FoodsContainer>
+        
         <Food
           food={Foods}
           handleDelete={handleDeleteFood}
