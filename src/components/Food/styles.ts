@@ -5,14 +5,12 @@ interface IFoodCardProps {
 }
 
 export const Container = styled.div<IFoodCardProps>`
-  background: #f0f0f5;
+  background: #fff;
   border-radius: 8px;
 
   header {
     background: #ffb84d;
     border-radius: 8px 8px 0px 0px;
-    height: 192px;
-    overflow: hidden;
     transition: 0.3s opacity;
     text-align: center;
 
@@ -30,22 +28,25 @@ export const Container = styled.div<IFoodCardProps>`
 
   section.body {
     padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     h2 {
-      color: #3d3d4d;
+      color: #000;
+      font-weight: 600;
     }
 
-    p {
-      color: #3d3d4d;
-
-      margin-top: 16px;
+    h4 {
+      color: #d3d3d3;
+      font-weight: bold;
     }
 
     .price {
       font-style: normal;
       font-size: 24px;
       line-height: 34px;
-      color: #39b100;
+      color: yellow;
 
       b {
         font-weight: 600;

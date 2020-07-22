@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Header from '../../components/Header';
 import Food from '../../components/Food';
-//import ModalAddFood from '../../components/Modal';
+// import ModalAddFood from '../../components/Modal';
 
 import { FoodsContainer, Title } from './styles';
 
@@ -22,30 +22,31 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function loadFoods(): Promise<void> {
-      //API
+      // API
     }
 
-    //load da listagem inicial do mongo
+    // load da listagem inicial do mongo
     loadFoods();
   }, []);
 
   const Foods = {
     id: 111,
-    name: "Churras Premium",
-    type: "Churrasco",
-    price: "100",
-    image: "image.png",
+    name: 'Churras Premium',
+    type: 'Churrasco',
+    price: '100',
+    image: 'image.png',
     available: true,
-  }
+  };
 
-  async function handleAddFood(food: Omit<IFoodCard, 'id' | 'available'>): Promise<void>{
-  }
+  async function handleAddFood(
+    food: Omit<IFoodCard, 'id' | 'available'>,
+  ): Promise<void> {}
 
   function handleDeleteFood(id: number): void {
-    //await api.delete(`/foods/${id}`);
+    // await api.delete(`/foods/${id}`);
 
     const filterFoods = foods.filter(food => food.id !== id);
-    
+
     setFoods(filterFoods);
   }
 
@@ -60,10 +61,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Header openModal={toggleModal}/>
+      <Header openModal={toggleModal} />
       <Title>Cardápios</Title>
       <FoodsContainer>
-        
         <Food
           food={Foods}
           handleDelete={handleDeleteFood}

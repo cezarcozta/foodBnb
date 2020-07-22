@@ -5,9 +5,8 @@ export const FoodsContainer = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 5px 0;
-  background: #FFF;
+  background: #f0f0f5;
   display: grid;
-
 
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 32px;

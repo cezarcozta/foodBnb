@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {FiEdit3, FiTrash} from 'react-icons/fi';
+import { FiEdit3, FiTrash } from 'react-icons/fi';
 
 import img from '../../assets/Churrasco_Tradicional.png';
-import {Container} from './styles';
+import { Container } from './styles';
 
 interface IFoodCard {
   id: number;
@@ -20,11 +20,7 @@ interface IProps {
   handleEdit: (food: IFoodCard) => void;
 }
 
-const Food: React.FC<IProps> = ({
-  food,
-  handleDelete,
-  handleEdit
-}) => {
+const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }) => {
   const [isAvailable, setIsAvailable] = useState(food.available);
 
   async function toggleAvailable(): Promise<void> {
@@ -37,14 +33,20 @@ const Food: React.FC<IProps> = ({
   return (
     <Container available={isAvailable}>
       <header>
-        <img src={img} alt="churras"/>
+        <img src={img} alt="churras" />
       </header>
       <section className="body">
-        <h2>Churrasco Premium</h2>
-        <p>Churrasco</p>
-        <p className="price">
-          R$ <b>100</b>/pessoa
-        </p>
+        <main>
+          <h4>Churrasco</h4>
+          <h2>Churrasco Premium</h2>
+        </main>
+        <aside>
+          <p className="price">
+            <b>R$ 100</b>
+            <br />
+            <small>/pessoa</small>
+          </p>
+        </aside>
       </section>
       <section className="footer">
         <div className="icon-container">
