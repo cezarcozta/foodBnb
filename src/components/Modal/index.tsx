@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 
 import ReactModal from 'react-modal';
 
-interface IFoodCard {
-  id: number;
+interface IFoodType {
+  id: string;
   name: string;
-  image: string;
+}
+
+interface IFoodCard {
+  id: string;
+  name: string;
+  type: IFoodType;
   price: string;
-  description: string;
-  available: boolean;
 }
 
 interface IModalProps {

@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { FiEdit3, FiTrash } from 'react-icons/fi';
 
 import img from '../../assets/Churrasco_Tradicional.png';
 import { Container } from './styles';
 
+interface IFoodType {
+  id: string;
+  name: string;
+}
+
 interface IFoodCard {
   id: number;
   name: string;
-  type: string;
-  image: string;
+  type: IFoodType;
   price: string;
-  available: boolean;
 }
 
 interface IProps {
@@ -20,29 +23,26 @@ interface IProps {
   handleEdit: (food: IFoodCard) => void;
 }
 
-const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }) => {
-  const [isAvailable, setIsAvailable] = useState(food.available);
-
-  async function toggleAvailable(): Promise<void> {
-    setIsAvailable(!isAvailable);
-  }
-
+const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }: IProps) => {
   function setEditingFood(): void {
     handleEdit(food);
   }
   return (
-    <Container available={isAvailable}>
+    <Container>
       <header>
-        <img src={img} alt="churras" />
+        <img src={img} alt={food.name} />
       </header>
       <section className="body">
         <main>
-          <h4>Churrasco</h4>
-          <h2>Churrasco Premium</h2>
+          <h4>{food.type.name}</h4>
+          <h2>{food.name}</h2>
         </main>
         <aside>
           <p className="price">
-            <b>R$ 100</b>
+            <b>
+              R$
+              {food.price}
+            </b>
             <br />
             <small>/pessoa</small>
           </p>
@@ -54,7 +54,6 @@ const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }) => {
             type="button"
             className="icon"
             onClick={() => setEditingFood()}
-            data-testid={`edit-food-${food.id}`}
           >
             <FiEdit3 size={20} />
           </button>
@@ -63,25 +62,9 @@ const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }) => {
             type="button"
             className="icon"
             onClick={() => handleDelete(food.id)}
-            data-testid={`remove-food-${food.id}`}
           >
             <FiTrash size={20} />
           </button>
-        </div>
-
-        <div className="availability-container">
-          <p>{isAvailable ? 'Disponível' : 'Indisponível'}</p>
-
-          <label htmlFor={`available-switch-${food.id}`} className="switch">
-            <input
-              id={`available-switch-${food.id}`}
-              type="checkbox"
-              checked={isAvailable}
-              onChange={toggleAvailable}
-              data-testid={`change-status-food-${food.id}`}
-            />
-            <span className="slider" />
-          </label>
         </div>
       </section>
     </Container>

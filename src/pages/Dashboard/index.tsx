@@ -1,49 +1,59 @@
 import React, { useState, useEffect } from 'react';
 
+import api from '../../services/api';
+
 import Header from '../../components/Header';
 import Food from '../../components/Food';
-// import ModalAddFood from '../../components/Modal';
+import ModalAddFoodCard from '../../components/ModalAddFoodCard';
 
 import { FoodsContainer, Title } from './styles';
+
+interface IFoodType {
+  id: string;
+  name: string;
+}
 
 interface IFoodCard {
   id: number;
   name: string;
-  type: string;
+  type: IFoodType;
   price: string;
-  available: boolean;
 }
 
 const Dashboard: React.FC = () => {
   const [foods, setFoods] = useState<IFoodCard[]>([]);
   const [editingFood, setEditingFood] = useState<IFoodCard>({} as IFoodCard);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editModalOpen, setEditingModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   useEffect(() => {
-    async function loadFoods(): Promise<void> {
-      // API
+    async function loadFoodsCards(): Promise<void> {
+      await api.get('/cards').then(response => {
+        setFoods(response.data);
+      });
     }
 
-    // load da listagem inicial do mongo
-    loadFoods();
+    loadFoodsCards();
   }, []);
 
-  const Foods = {
-    id: 111,
-    name: 'Churras Premium',
-    type: 'Churrasco',
-    price: '100',
-    image: 'image.png',
-    available: true,
-  };
+  async function handleAddFoodCard(food: Omit<IFoodCard, 'id'>): Promise<void> {
+    try {
+      const { name, type, price } = food;
 
-  async function handleAddFood(
-    food: Omit<IFoodCard, 'id' | 'available'>,
-  ): Promise<void> {}
+      const response = await api.post<IFoodCard>('/cards', {
+        name,
+        type,
+        price,
+      });
 
-  function handleDeleteFood(id: number): void {
-    // await api.delete(`/foods/${id}`);
+      setFoods([...foods, response.data]);
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async function handleDeleteFood(id: number): Promise<void> {
+    await api.delete(`/cards/${id}`);
 
     const filterFoods = foods.filter(food => food.id !== id);
 
@@ -54,21 +64,34 @@ const Dashboard: React.FC = () => {
     setModalOpen(!modalOpen);
   }
 
+  function toggleEditModal(): void {
+    setEditModalOpen(!editModalOpen);
+  }
+
   function handleEditFood(food: IFoodCard): void {
     // TODO SET THE CURRENT EDITING FOOD ID IN THE STATE
     setEditingFood(food);
+    toggleEditModal();
   }
 
   return (
     <>
       <Header openModal={toggleModal} />
+      <ModalAddFoodCard
+        isOpen={modalOpen}
+        setIsOpen={toggleModal}
+        handleAddFoodCard={handleAddFoodCard}
+      />
       <Title>Cardápios</Title>
       <FoodsContainer>
-        <Food
-          food={Foods}
-          handleDelete={handleDeleteFood}
-          handleEdit={handleEditFood}
-        />
+        {foods.map(food => (
+          <Food
+            key={food.id}
+            food={food}
+            handleDelete={handleDeleteFood}
+            handleEdit={handleEditFood}
+          />
+        ))}
       </FoodsContainer>
     </>
   );

@@ -1,10 +1,6 @@
 import styled, { css } from 'styled-components';
 
-interface IFoodCardProps {
-  available: boolean;
-}
-
-export const Container = styled.div<IFoodCardProps>`
+export const Container = styled.div`
   background: #fff;
   border-radius: 8px;
 
@@ -13,12 +9,6 @@ export const Container = styled.div<IFoodCardProps>`
     border-radius: 8px 8px 0px 0px;
     transition: 0.3s opacity;
     text-align: center;
-
-    ${props =>
-      !props.available &&
-      css`
-        opacity: 0.3;
-      `};
 
     img {
       pointer-events: none;

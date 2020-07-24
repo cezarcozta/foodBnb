@@ -7,40 +7,43 @@ import { Form } from './styles';
 import Modal from '../Modal';
 import Input from '../Input';
 
+interface IFoodType {
+  id: string;
+  name: string;
+}
+
 interface IFoodCard {
   id: number;
   name: string;
-  image: string;
+  type: IFoodType;
   price: string;
-  available: boolean;
 }
 
 interface ICreateFoodData {
   name: string;
-  image: string;
+  type: IFoodType;
   price: string;
-  type: string;
 }
 
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddFood: (food: Omit<IFoodCard, 'id' | 'available'>) => void;
+  handleAddFoodCard: (food: Omit<IFoodCard, 'id'>) => void;
 }
 
-const ModalAddFood: React.FC<IModalProps> = ({
+const ModalAddFoodCard: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
-  handleAddFood,
+  handleAddFoodCard,
 }) => {
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(
     async (data: ICreateFoodData) => {
-      handleAddFood(data);
+      handleAddFoodCard(data);
       setIsOpen();
     },
-    [handleAddFood, setIsOpen],
+    [handleAddFoodCard, setIsOpen],
   );
 
   return (
@@ -53,7 +56,7 @@ const ModalAddFood: React.FC<IModalProps> = ({
         <Input name="price" placeholder="Ex: 99.90" />
 
         <Input name="type" placeholder="Ex: Chuurasco" />
-        <button type="submit" data-testid="add-food-button">
+        <button type="submit">
           <p className="text">Adicionar Cardápio</p>
           <div className="icon">
             <FiCheckSquare size={24} />
@@ -64,4 +67,4 @@ const ModalAddFood: React.FC<IModalProps> = ({
   );
 };
 
-export default ModalAddFood;
+export default ModalAddFoodCard;
