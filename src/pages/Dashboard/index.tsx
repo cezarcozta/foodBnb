@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import api from '../../services/api';
 
@@ -26,6 +26,16 @@ const Dashboard: React.FC = () => {
   const [editingFood, setEditingFood] = useState<IFoodCard>({} as IFoodCard);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+
+  /**
+   * USECALLBACK PRA AÇÃO DE CHAMAR A ROTA DE FILTRO,]
+   * RECEBER A RESPOSTA E SETAR POR CIMA DO QUE ESTA APRESENTADO
+   */
+  const handleSearch = useCallback(() => {
+    api.get('/cards').then(response => {
+      setFoods(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     async function loadFoodsCards(): Promise<void> {
@@ -92,26 +102,29 @@ const Dashboard: React.FC = () => {
   }
 
   function handleEditFood(food: IFoodCard): void {
-    // TODO SET THE CURRENT EDITING FOOD ID IN THE STATE
     setEditingFood(food);
     toggleEditModal();
   }
 
   return (
     <>
-      <Header openModal={toggleModal} />
+      <Header openModal={toggleModal} search={handleSearch} />
+
       <ModalAddFoodCard
         isOpen={modalOpen}
         setIsOpen={toggleModal}
         handleAddFoodCard={handleAddFoodCard}
       />
+
       <ModalEditFood
         isOpen={editModalOpen}
         setIsOpen={toggleEditModal}
         editingFood={editingFood}
         handleUpdateFoodCard={handleUpdateFoodCard}
       />
+
       <Title>Cardápios</Title>
+
       <FoodsContainer>
         {foods.map(food => (
           <Food
