@@ -5,6 +5,7 @@ import api from '../../services/api';
 import Header from '../../components/Header';
 import Food from '../../components/Food';
 import ModalAddFoodCard from '../../components/ModalAddFoodCard';
+import ModalEditFood from '../../components/ModalEditFoodCard';
 
 import { FoodsContainer, Title } from './styles';
 
@@ -52,6 +53,28 @@ const Dashboard: React.FC = () => {
     }
   }
 
+  async function handleUpdateFoodCard(
+    food: Omit<IFoodCard, 'id'>,
+  ): Promise<void> {
+    const foodsList = foods.map(f => {
+      if (f.id !== editingFood.id) {
+        return f;
+      }
+
+      return {
+        ...food,
+        id: editingFood.id,
+      };
+    });
+
+    setFoods(foodsList);
+
+    await api.put(`/foods/${editingFood.id}`, {
+      ...food,
+      id: editingFood.id,
+    });
+  }
+
   async function handleDeleteFood(id: number): Promise<void> {
     await api.delete(`/cards/${id}`);
 
@@ -81,6 +104,12 @@ const Dashboard: React.FC = () => {
         isOpen={modalOpen}
         setIsOpen={toggleModal}
         handleAddFoodCard={handleAddFoodCard}
+      />
+      <ModalEditFood
+        isOpen={editModalOpen}
+        setIsOpen={toggleEditModal}
+        editingFood={editingFood}
+        handleUpdateFoodCard={handleUpdateFoodCard}
       />
       <Title>Cardápios</Title>
       <FoodsContainer>
