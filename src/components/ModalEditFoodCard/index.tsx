@@ -28,7 +28,7 @@ interface ICreateFoodData {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleUpdateFoodCard: (food: Omit<IFoodCard, 'id'>) => void;
+  handleUpdateFoodCard: (card: Omit<IFoodCard, 'id'>) => void;
   editingFood: IFoodCard;
 }
 

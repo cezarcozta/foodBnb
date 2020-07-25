@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Form as Unform } from '@unform/web';
 
 export const CardsContainer = styled.div`
   width: 100%;
@@ -10,6 +11,18 @@ export const CardsContainer = styled.div`
 
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 32px;
+`;
+
+export const Header = styled.header`
+  display: flex;
+`;
+
+export const Nav = styled.nav`
+  flex: 1;
+`;
+
+export const Form = styled(Unform)`
+  display: flex;
 `;
 
 export const Title = styled.h1`

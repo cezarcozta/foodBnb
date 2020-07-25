@@ -23,30 +23,24 @@ interface IFoodCard {
 
 const Dashboard: React.FC = () => {
   const [cards, setCards] = useState<IFoodCard[]>([]);
-  const [foodTypes, setFoodTypes] = useState<IFoodType[]>([]);
+  const [foodType, setFoodTypes] = useState<IFoodType[]>([]);
+  const [selectedFoodTypeID, setSelectedFoodTypeID] = useState<string>('');
+  const [fromPrice, setfromPrice] = useState('');
+  const [toPrice, setToPrice] = useState('');
+  const [order, setOrder] = useState('');
   const [editingCard, setEditingCard] = useState<IFoodCard>({} as IFoodCard);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  /**
-   * USECALLBACK PRA AÇÃO DE CHAMAR A ROTA DE FILTRO,]
-   * RECEBER A RESPOSTA E SETAR POR CIMA DO QUE ESTA APRESENTADO
-   */
-  // const handleSearch = useCallback(() => {
-  //   api.get(`/cards/?type=${}&price=${}`).then(response => {
-  //     setCards(response.data);
-  //   });
-  // }, []);
-
   useEffect(() => {
     async function loadFoodsCards(): Promise<void> {
-      await api.get('/cards').then(response => {
-        setCards(response.data);
-      });
+      const response = await api.get<IFoodCard[]>('/cards/');
+
+      setCards(response.data);
     }
 
     loadFoodsCards();
-  }, []);
+  }, [fromPrice, order, selectedFoodTypeID, toPrice]);
 
   async function handleAddFoodCard(
     foodCard: Omit<IFoodCard, 'id'>,
@@ -96,6 +90,18 @@ const Dashboard: React.FC = () => {
     setCards(filterCards);
   }
 
+  const handleSubmit = useCallback(async () => {
+    const response = await api.get<IFoodCard[]>('/cards/', {
+      params: {
+        type: foodType,
+        price: `${toPrice},${fromPrice}`,
+        option: order,
+      },
+    });
+
+    setCards(response.data);
+  }, [foodType, toPrice, fromPrice, order]);
+
   function toggleModal(): void {
     setModalOpen(!modalOpen);
   }
@@ -111,7 +117,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Header openModal={toggleModal} search={() => {}} />
+      <Header openModal={toggleModal} doFilter={handleSubmit} />
 
       <ModalAddFoodCard
         isOpen={modalOpen}

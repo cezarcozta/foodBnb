@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FiSearch, FiPlusCircle } from 'react-icons/fi';
 
@@ -19,12 +19,18 @@ interface IFoodType {
   name: string;
 }
 
+interface IFoodCard {
+  id: number;
+  name: string;
+  type: IFoodType;
+  price: string;
+}
 interface IHeaderProps {
   openModal: () => void;
-  search: ({ type, minPrice, maxPrice, option }: IFilterFoodCard) => void;
+  doFilter: () => void;
 }
 
-const Header: React.FC<IHeaderProps> = ({ openModal, search }) => {
+const Header: React.FC<IHeaderProps> = ({ openModal, doFilter }) => {
   const [foodType, setFoodTypes] = useState<IFoodType[]>([]);
   const [fromPrice, setfromPrice] = useState('');
   const [toPrice, setToPrice] = useState('');
@@ -38,20 +44,13 @@ const Header: React.FC<IHeaderProps> = ({ openModal, search }) => {
     }
 
     loadFoodTypes();
-  }, [foodType]);
-
-  const handleSubmit = useCallback(
-    async (data: IFilterFoodCard) => {
-      search(data);
-    },
-    [search],
-  );
+  }, []);
 
   return (
     <Container>
       <header>
         <nav>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={doFilter}>
             <label htmlFor="type">
               Tipo de comida:
               <select id="type">
@@ -66,7 +65,7 @@ const Header: React.FC<IHeaderProps> = ({ openModal, search }) => {
             <Input name="minPrice" placeholder="R$/Pessoa" />
             a:
             <Input name="maxPrice" placeholder="R$/Pessoa" />
-            <button type="button" onClick={() => {}}>
+            <button type="button">
               <div className="icon-search">
                 <FiSearch size={18} />
               </div>
