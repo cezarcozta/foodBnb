@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FiEdit3, FiTrash } from 'react-icons/fi';
 
 import img from '../../assets/Churrasco_Tradicional.png';
 import { Container } from './styles';
+
+import api from '../../services/api';
 
 interface IFoodType {
   id: string;
@@ -18,30 +20,49 @@ interface IFoodCard {
 }
 
 interface IProps {
-  food: IFoodCard;
+  card: IFoodCard;
+  types: IFoodType;
   handleDelete: (id: number) => void;
-  handleEdit: (food: IFoodCard) => void;
+  handleEdit: (card: IFoodCard) => void;
 }
 
-const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }: IProps) => {
-  function setEditingFood(): void {
-    handleEdit(food);
+const Card: React.FC<IProps> = ({
+  card,
+  types,
+  handleDelete,
+  handleEdit,
+}: IProps) => {
+  const [foodTypes, setFoodTypes] = useState<IFoodType[]>([]);
+
+  useEffect(() => {
+    async function loadFoodTypes(): Promise<void> {
+      await api.get('/foods').then(response => {
+        setFoodTypes(response.data);
+      });
+    }
+
+    loadFoodTypes();
+  }, []);
+
+  function setEditingCard(): void {
+    handleEdit(card);
   }
+
   return (
     <Container>
       <header>
-        <img src={img} alt={food.name} />
+        <img src={img} alt={card.name} />
       </header>
       <section className="body">
         <main>
-          <h4>{food.type.name}</h4>
-          <h2>{food.name}</h2>
+          <h4>{card.type.name}</h4>
+          <h2>{card.name}</h2>
         </main>
         <aside>
           <p className="price">
             <b>
               R$
-              {food.price}
+              {card.price}
             </b>
             <br />
             <small>/pessoa</small>
@@ -53,7 +74,7 @@ const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }: IProps) => {
           <button
             type="button"
             className="icon"
-            onClick={() => setEditingFood()}
+            onClick={() => setEditingCard()}
           >
             <FiEdit3 size={20} />
           </button>
@@ -61,7 +82,7 @@ const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }: IProps) => {
           <button
             type="button"
             className="icon"
-            onClick={() => handleDelete(food.id)}
+            onClick={() => handleDelete(card.id)}
           >
             <FiTrash size={20} />
           </button>
@@ -71,4 +92,4 @@ const Food: React.FC<IProps> = ({ food, handleDelete, handleEdit }: IProps) => {
   );
 };
 
-export default Food;
+export default Card;

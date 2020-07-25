@@ -1,5 +1,19 @@
 import styled from 'styled-components';
 
+import { Form as Unform } from '@unform/web';
+
+export const Form = styled(Unform)`
+  padding: 18px 10px;
+  display: flex;
+
+  h1 {
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 36px;
+    margin-bottom: 40px;
+  }
+`;
+
 export const Container = styled.div`
   background: #ffffff;
   padding: 30px 0;
@@ -45,7 +59,7 @@ export const Container = styled.div`
 
           display: flex;
           justify-content: center;
-          align-items: center;
+          align-self: center;
         }
       }
 
