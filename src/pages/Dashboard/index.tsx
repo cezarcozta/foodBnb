@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect, useCallback } from 'react';
 
 import api from '../../services/api';
@@ -18,7 +19,7 @@ interface IFilterFoodCard {
   type: IFoodType;
   minPrice: string;
   maxPrice: string;
-  option: 'ASC' | 'DESC';
+  option: boolean;
 }
 
 interface IFoodCard {
@@ -30,11 +31,6 @@ interface IFoodCard {
 
 const Dashboard: React.FC = () => {
   const [cards, setCards] = useState<IFoodCard[]>([]);
-  const [foodType, setFoodTypes] = useState<IFoodType[]>([]);
-  const [selectedFoodTypeID, setSelectedFoodTypeID] = useState<string>('');
-  const [fromPrice, setfromPrice] = useState('');
-  const [toPrice, setToPrice] = useState('');
-  const [order, setOrder] = useState('');
   const [editingCard, setEditingCard] = useState<IFoodCard>({} as IFoodCard);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -42,12 +38,11 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     async function loadFoodsCards(): Promise<void> {
       const response = await api.get<IFoodCard[]>('/cards/');
-
       setCards(response.data);
     }
 
     loadFoodsCards();
-  }, [fromPrice, order, selectedFoodTypeID, toPrice]);
+  }, []);
 
   async function handleAddFoodCard(
     foodCard: Omit<IFoodCard, 'id'>,
@@ -68,7 +63,7 @@ const Dashboard: React.FC = () => {
   }
 
   async function handleUpdateFoodCard(
-    food: Omit<IFoodCard, 'id'>,
+    foodCard: Omit<IFoodCard, 'id'>,
   ): Promise<void> {
     const cardsList = cards.map(card => {
       if (card.id !== editingCard.id) {
@@ -97,14 +92,10 @@ const Dashboard: React.FC = () => {
     setCards(filterCards);
   }
 
-  const handleSubmit = useCallback(async (data: IFilterFoodCard) => {
-    const response = await api.get<IFoodCard[]>('/cards/', {
-      params: {
-        type: data.type,
-        price: `${data.minPrice},${data.maxPrice}`,
-        option: data.option,
-      },
-    });
+  const handleSubmit = useCallback(async () => {
+    // console.log(data);
+    // const { type, minPrice, maxPrice, option } = data;
+    const response = await api.get<IFoodCard[]>('/cards/');
 
     setCards(response.data);
   }, []);
