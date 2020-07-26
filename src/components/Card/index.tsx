@@ -13,7 +13,7 @@ interface IFoodType {
 }
 
 interface IFoodCard {
-  id: number;
+  id: string;
   name: string;
   type: IFoodType;
   price: string;
@@ -22,7 +22,7 @@ interface IFoodCard {
 interface IProps {
   card: IFoodCard;
   types: IFoodType;
-  handleDelete: (id: number) => void;
+  handleDelete: (id: string) => void;
   handleEdit: (card: IFoodCard) => void;
 }
 

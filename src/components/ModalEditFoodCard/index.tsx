@@ -5,7 +5,7 @@ import { FormHandles } from '@unform/core';
 
 import { Form } from './styles';
 import Modal from '../Modal';
-import Input from '../Input';
+import Input from '../FilterForm/Input';
 
 interface IFoodType {
   id: string;
@@ -13,7 +13,7 @@ interface IFoodType {
 }
 
 interface IFoodCard {
-  id: number;
+  id: string;
   name: string;
   type: IFoodType;
   price: string;

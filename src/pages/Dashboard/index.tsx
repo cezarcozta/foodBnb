@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import api from '../../services/api';
 
-import Header from '../../components/Header';
+import FilterForm from '../../components/FilterForm';
 import Card from '../../components/Card';
 import ModalAddFoodCard from '../../components/ModalAddFoodCard';
 import ModalEditFood from '../../components/ModalEditFoodCard';
@@ -15,18 +15,18 @@ interface IFoodType {
   name: string;
 }
 
+interface IFoodCard {
+  id: string;
+  name: string;
+  type: IFoodType;
+  price: string;
+}
+
 interface IFilterFoodCard {
   type: IFoodType;
   minPrice: string;
   maxPrice: string;
   option: boolean;
-}
-
-interface IFoodCard {
-  id: number;
-  name: string;
-  type: IFoodType;
-  price: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -84,7 +84,7 @@ const Dashboard: React.FC = () => {
     });
   }
 
-  async function handleDeleteFood(id: number): Promise<void> {
+  async function handleDeleteFood(id: string): Promise<void> {
     await api.delete(`/cards/${id}`);
 
     const filterCards = cards.filter(card => card.id !== id);
@@ -92,11 +92,13 @@ const Dashboard: React.FC = () => {
     setCards(filterCards);
   }
 
-  const handleSubmit = useCallback(async () => {
-    // console.log(data);
-    // const { type, minPrice, maxPrice, option } = data;
-    const response = await api.get<IFoodCard[]>('/cards/');
-
+  const handleSubmit = useCallback(async data => {
+    const { minPrice, maxPrice } = data;
+    const response = await api.get<IFoodCard[]>('/cards/', {
+      params: {
+        price: `${minPrice},${maxPrice}`,
+      },
+    });
     setCards(response.data);
   }, []);
 
@@ -115,7 +117,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Header openModal={toggleModal} doFilter={handleSubmit} />
+      <FilterForm openModal={toggleModal} handleSubmit={handleSubmit} />
 
       <ModalAddFoodCard
         isOpen={modalOpen}

@@ -1,9 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useState, FormEvent } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Form } from '@unform/web';
 
 import { FiSearch, FiPlusCircle } from 'react-icons/fi';
 
-import { Container, Form } from './styles';
+import Input from './Input';
+
+import { Container } from './styles';
 import api from '../../services/api';
 
 interface IFoodType {
@@ -27,59 +30,44 @@ interface IFilterFoodCard {
 
 interface IHeaderProps {
   openModal: () => void;
-  doFilter: (data: IFilterFoodCard) => void;
+  handleSubmit: (data: any) => void;
 }
 
-const Header: React.FC<IHeaderProps> = ({ openModal, doFilter }) => {
+const FilterForm: React.FC<IHeaderProps> = ({ openModal, handleSubmit }) => {
   const [foodType, setFoodTypes] = useState<IFoodType[]>([]);
-  const [card, setCards] = useState<IFoodCard[]>([]);
-
-  const [formData, setFormData] = useState<IFilterFoodCard>({
-    type: {
-      id: '',
-      name: '',
-    },
-    minPrice: '',
-    maxPrice: '',
-    option: true,
-  });
 
   useEffect(() => {
     async function loadFoodTypes(): Promise<void> {
       await api.get('/foods').then(response => {
         setFoodTypes(response.data);
       });
-
-      await api.get('/cards').then(response => {
-        setCards(response.data);
-      });
     }
 
     loadFoodTypes();
   }, []);
 
-  async function handleSubmit(event: FormEvent): Promise<void> {
-    event.preventDefault();
+  // async function handleSubmit(event: FormEvent): Promise<void> {
+  //   event.preventDefault();
 
-    const { type, minPrice, maxPrice, option } = formData;
+  //   const { type, minPrice, maxPrice, option } = formData;
 
-    const data = new FormData();
+  //   const response = await api.get('/cards/', {
+  //     params: {
+  //       type,
+  //       price: `${minPrice},${maxPrice}`,
+  //     },
+  //   });
 
-    data.append('type', type.id);
-    data.append('minPrice', minPrice);
-    data.append('maxPrice', maxPrice);
-
-    const response = await api.get('cards', { params: data });
-
-    setCards(response.data);
-  }
+  //   setCards(response.data);
+  // }
 
   return (
     <Container>
       <header>
         <nav>
-          <form onSubmit={handleSubmit}>
+          <Form name="formData" onSubmit={handleSubmit}>
             <label htmlFor="type">Tipo de comida:</label>
+
             <select name="type" id="type">
               <option value="0">Selecione o tipo de comida</option>
               {foodType &&
@@ -89,22 +77,23 @@ const Header: React.FC<IHeaderProps> = ({ openModal, doFilter }) => {
                   </option>
                 ))}
             </select>
+
             <label htmlFor="minPrice">De:</label>
-            <input name="minPrice" placeholder="R$/Pessoa" />
-            <label htmlFor="max">a:</label>
-            <input name="maxPrice" placeholder="R$/Pessoa" />
+            <Input type="text" name="minPrice" placeholder="Mínimo R$/Pessoa" />
+            <label htmlFor="maxPrice">a:</label>
+            <Input type="text" name="maxPrice" placeholder="Máximo R$/Pessoa" />
             <button
               type="submit"
-              onClick={() => {
-                doFilter(formData);
-              }}
+              // onClick={() => {
+              //   handleSubmit();
+              // }}
             >
               <div className="icon-search">
                 <FiSearch size={18} />
               </div>
               <div className="text">Buscar</div>
             </button>
-          </form>
+          </Form>
 
           <button
             type="button"
@@ -123,4 +112,4 @@ const Header: React.FC<IHeaderProps> = ({ openModal, doFilter }) => {
   );
 };
 
-export default Header;
+export default FilterForm;
