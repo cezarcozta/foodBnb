@@ -3,9 +3,10 @@ import React, { useRef, useCallback } from 'react';
 import { FiCheckSquare } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 
-import { Form } from './styles';
 import Modal from '../Modal';
 import Input from '../FilterForm/Input';
+
+import { Form } from './styles';
 
 interface IFoodType {
   id: string;
@@ -32,7 +33,7 @@ interface IModalProps {
   editingFood: IFoodCard;
 }
 
-const ModalAddFoodCard: React.FC<IModalProps> = ({
+const ModalEditFoodCard: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
   handleUpdateFoodCard,
@@ -69,4 +70,4 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
   );
 };
 
-export default ModalAddFoodCard;
+export default ModalEditFoodCard;

@@ -22,13 +22,6 @@ interface IFoodCard {
   price: string;
 }
 
-interface IFilterFoodCard {
-  type: IFoodType;
-  minPrice: string;
-  maxPrice: string;
-  option: boolean;
-}
-
 const Dashboard: React.FC = () => {
   const [cards, setCards] = useState<IFoodCard[]>([]);
   const [editingCard, setEditingCard] = useState<IFoodCard>({} as IFoodCard);
@@ -63,11 +56,11 @@ const Dashboard: React.FC = () => {
   }
 
   async function handleUpdateFoodCard(
-    foodCard: Omit<IFoodCard, 'id'>,
+    card: Omit<IFoodCard, 'id'>,
   ): Promise<void> {
-    const cardsList = cards.map(card => {
-      if (card.id !== editingCard.id) {
-        return card;
+    const cardsList = cards.map(c => {
+      if (c.id !== editingCard.id) {
+        return c;
       }
 
       return {
