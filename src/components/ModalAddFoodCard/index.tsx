@@ -13,7 +13,7 @@ interface IFoodType {
 }
 
 interface IFoodCard {
-  id: number;
+  id: string;
   name: string;
   type: IFoodType;
   price: string;

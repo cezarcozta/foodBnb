@@ -5,6 +5,7 @@ import { Form } from '@unform/web';
 import { FiSearch, FiPlusCircle } from 'react-icons/fi';
 
 import Input from './Input';
+import Select from './Select';
 
 import { Container } from './styles';
 import api from '../../services/api';
@@ -68,7 +69,7 @@ const FilterForm: React.FC<IHeaderProps> = ({ openModal, handleSubmit }) => {
           <Form name="formData" onSubmit={handleSubmit}>
             <label htmlFor="type">Tipo de comida:</label>
 
-            <select name="type" id="type">
+            <Select type="select" name="type">
               <option value="0">Selecione o tipo de comida</option>
               {foodType &&
                 foodType.map(type => (
@@ -76,18 +77,13 @@ const FilterForm: React.FC<IHeaderProps> = ({ openModal, handleSubmit }) => {
                     {type.name}
                   </option>
                 ))}
-            </select>
+            </Select>
 
             <label htmlFor="minPrice">De:</label>
             <Input type="text" name="minPrice" placeholder="Mínimo R$/Pessoa" />
             <label htmlFor="maxPrice">a:</label>
             <Input type="text" name="maxPrice" placeholder="Máximo R$/Pessoa" />
-            <button
-              type="submit"
-              // onClick={() => {
-              //   handleSubmit();
-              // }}
-            >
+            <button type="submit">
               <div className="icon-search">
                 <FiSearch size={18} />
               </div>
