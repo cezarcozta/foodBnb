@@ -3,31 +3,26 @@ import React, { useEffect, useState } from 'react';
 import { FiSearch, FiPlusCircle } from 'react-icons/fi';
 
 import Input from '../Input';
+import Select from '../Select';
 
 import { Container, Form } from './styles';
 import api from '../../services/api';
-
-interface IFilterFoodCard {
-  type: string;
-  minPrice: string;
-  maxPrice: string;
-  option: 'ASC' | 'DESC';
-}
 
 interface IFoodType {
   id: string;
   name: string;
 }
 
-interface IFoodCard {
-  id: number;
-  name: string;
+interface IFilterFoodCard {
   type: IFoodType;
-  price: string;
+  minPrice: string;
+  maxPrice: string;
+  option: 'ASC' | 'DESC';
 }
+
 interface IHeaderProps {
   openModal: () => void;
-  doFilter: () => void;
+  doFilter: (data: any) => void;
 }
 
 const Header: React.FC<IHeaderProps> = ({ openModal, doFilter }) => {
@@ -51,21 +46,18 @@ const Header: React.FC<IHeaderProps> = ({ openModal, doFilter }) => {
       <header>
         <nav>
           <Form onSubmit={doFilter}>
-            <label htmlFor="type">
-              Tipo de comida:
-              <select id="type">
-                {foodType.map(type => (
-                  <option key={type.id} value={type.id}>
-                    {type.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+            Tipo de comida:
+            <Input name="typeFood" placeholder="Tipos de Comida" />
             De:
             <Input name="minPrice" placeholder="R$/Pessoa" />
             a:
             <Input name="maxPrice" placeholder="R$/Pessoa" />
-            <button type="button">
+            <button
+              type="submit"
+              onClick={() => {
+                doFilter(fromPrice);
+              }}
+            >
               <div className="icon-search">
                 <FiSearch size={18} />
               </div>

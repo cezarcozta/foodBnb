@@ -14,6 +14,13 @@ interface IFoodType {
   name: string;
 }
 
+interface IFilterFoodCard {
+  type: IFoodType;
+  minPrice: string;
+  maxPrice: string;
+  option: 'ASC' | 'DESC';
+}
+
 interface IFoodCard {
   id: number;
   name: string;
@@ -90,17 +97,17 @@ const Dashboard: React.FC = () => {
     setCards(filterCards);
   }
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(async (data: IFilterFoodCard) => {
     const response = await api.get<IFoodCard[]>('/cards/', {
       params: {
-        type: foodType,
-        price: `${toPrice},${fromPrice}`,
-        option: order,
+        type: data.type,
+        price: `${data.minPrice},${data.maxPrice}`,
+        option: data.option,
       },
     });
 
     setCards(response.data);
-  }, [foodType, toPrice, fromPrice, order]);
+  }, []);
 
   function toggleModal(): void {
     setModalOpen(!modalOpen);

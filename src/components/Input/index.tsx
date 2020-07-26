@@ -49,7 +49,6 @@ const Input: React.FC<IInputProps> = ({ name, icon: Icon, ...rest }) => {
       <input
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
-        defaultValue={defaultValue}
         ref={inputRef}
         {...rest}
       />
