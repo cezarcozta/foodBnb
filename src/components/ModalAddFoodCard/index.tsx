@@ -50,7 +50,7 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Novo Cardápio</h1>
-        <Input name="image" placeholder="Cole o link aqui" />
+        <Input type="file" name="image" />
 
         <Input name="name" placeholder="Ex: Churrasco Premium" />
         <Input name="price" placeholder="Ex: 99.90" />
