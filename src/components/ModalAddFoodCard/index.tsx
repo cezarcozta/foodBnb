@@ -47,11 +47,13 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
 
   const [foodType, setFoodType] = useState<IFoodType[]>([]);
 
+  const [cardImage, setCardImage] = useState<File>();
+
+  // const handleImage = useCallback((image: File) => {}, []);
+
   const handleSubmit = useCallback(
     async ({ image, name, type, price }: ICreateFoodData) => {
-      console.log({ image, name, type, price });
-
-      const imgFileName = image.name;
+      console.log(image);
       handleAddFoodCard({
         image,
         name,
