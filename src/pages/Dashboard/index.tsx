@@ -40,15 +40,14 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     async function loadFoodsCards(): Promise<void> {
       const response = await api.get<IFoodCard[]>('/cards/');
+
       setCards(response.data);
     }
 
     loadFoodsCards();
   }, []);
 
-  async function handleAddFoodCard(
-    foodCard: Omit<IAddFoodCard, 'id'>,
-  ): Promise<void> {
+  async function handleAddFoodCard(foodCard: IAddFoodCard): Promise<void> {
     try {
       const { name, type, price, image } = foodCard;
 

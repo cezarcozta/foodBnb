@@ -26,13 +26,6 @@ interface IFoodCard {
   price: string;
 }
 
-interface ICreateFoodData {
-  name: string;
-  image: File;
-  type: IFoodType;
-  price: string;
-}
-
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
@@ -53,6 +46,7 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
   const handleSubmit = useCallback(
     async (data: IFoodCard) => {
       handleUpdateFoodCard(data);
+
       setIsOpen();
     },
     [handleUpdateFoodCard, setIsOpen],
@@ -74,8 +68,8 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
         <h1>Editar Cardápio</h1>
         <InputImage type="file" name="image" />
 
-        <Input name="name" placeholder="Ex: Churrasco Premium" />
-        <Input name="price" placeholder="Ex: 99.90" />
+        <Input name="name" type="text" placeholder="Ex: Churrasco Premium" />
+        <Input name="price" type="text" placeholder="Ex: 99.90" />
 
         <Select
           name="type"
@@ -89,6 +83,7 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
               </option>
             ))}
         </Select>
+
         <button type="submit">
           <p className="text">Editar Cardápio</p>
           <div className="icon">
