@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react';
 import { Form } from '@unform/web';
@@ -19,6 +20,7 @@ interface IFoodCard {
   id: string;
   name: string;
   image: string;
+  img_url: string;
   type: IFoodType;
   price: string;
 }

@@ -10,6 +10,7 @@ import { Form } from './styles';
 import Modal from '../Modal';
 import Input from '../FilterForm/Input';
 import Select from '../FilterForm/Select';
+import InputImage from '../InputImage';
 
 interface IFoodType {
   id: string;
@@ -26,7 +27,7 @@ interface IFoodCard {
 
 interface ICreateFoodData {
   name: string;
-  img_url: string;
+  image: File;
   type: IFoodType;
   price: string;
 }
@@ -34,7 +35,7 @@ interface ICreateFoodData {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddFoodCard: (card: Omit<IFoodCard, 'id'>) => void;
+  handleAddFoodCard: (card: Omit<ICreateFoodData, 'id' | 'img_url'>) => void;
 }
 
 const ModalAddFoodCard: React.FC<IModalProps> = ({
@@ -47,12 +48,18 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
   const [foodType, setFoodType] = useState<IFoodType[]>([]);
 
   const handleSubmit = useCallback(
-    async (data: ICreateFoodData, { reset }) => {
-      handleAddFoodCard(data);
+    async ({ image, name, type, price }: ICreateFoodData) => {
+      console.log({ image, name, type, price });
+
+      const imgFileName = image.name;
+      handleAddFoodCard({
+        image,
+        name,
+        type,
+        price,
+      });
 
       setIsOpen();
-
-      reset();
     },
     [handleAddFoodCard, setIsOpen],
   );
@@ -71,7 +78,7 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={handleSubmit}>
         <h1>Novo Cardápio</h1>
-        <Input type="file" name="image" />
+        <InputImage name="image" />
 
         <Input name="name" placeholder="Ex: Churrasco Premium" />
         <Input name="price" placeholder="Ex: 99.90" />

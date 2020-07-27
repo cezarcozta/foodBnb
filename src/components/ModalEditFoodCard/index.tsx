@@ -7,6 +7,7 @@ import { FormHandles } from '@unform/core';
 import Modal from '../Modal';
 import Input from '../FilterForm/Input';
 import Select from '../FilterForm/Select';
+import InputImage from '../InputImage';
 
 import { Form } from './styles';
 
@@ -27,7 +28,7 @@ interface IFoodCard {
 
 interface ICreateFoodData {
   name: string;
-  img_url: string;
+  image: File;
   type: IFoodType;
   price: string;
 }
@@ -50,7 +51,7 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
   const [foodType, setFoodType] = useState<IFoodType[]>([]);
 
   const handleSubmit = useCallback(
-    async (data: ICreateFoodData) => {
+    async (data: IFoodCard) => {
       handleUpdateFoodCard(data);
       setIsOpen();
     },
@@ -71,7 +72,7 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form ref={formRef} onSubmit={handleSubmit} initialData={editingFood}>
         <h1>Editar Cardápio</h1>
-        <Input type="file" name="image" />
+        <InputImage type="file" name="image" />
 
         <Input name="name" placeholder="Ex: Churrasco Premium" />
         <Input name="price" placeholder="Ex: 99.90" />

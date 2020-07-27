@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import api from '../../services/api';
 
@@ -24,6 +24,13 @@ interface IFoodCard {
   price: string;
 }
 
+interface IAddFoodCard {
+  image: File;
+  name: string;
+  type: IFoodType;
+  price: string;
+}
+
 const Dashboard: React.FC = () => {
   const [cards, setCards] = useState<IFoodCard[]>([]);
   const [editingCard, setEditingCard] = useState<IFoodCard>({} as IFoodCard);
@@ -40,17 +47,17 @@ const Dashboard: React.FC = () => {
   }, []);
 
   async function handleAddFoodCard(
-    foodCard: Omit<IFoodCard, 'id'>,
+    foodCard: Omit<IAddFoodCard, 'id'>,
   ): Promise<void> {
     try {
-      const { name, type, price } = foodCard;
+      const { name, type, price, image } = foodCard;
 
       const response = await api.post<IFoodCard>('/cards', {
         name,
+        image,
         type,
         price,
       });
-
       setCards([...cards, response.data]);
     } catch (err) {
       throw new Error(err.message);
@@ -58,7 +65,7 @@ const Dashboard: React.FC = () => {
   }
 
   async function handleUpdateFoodCard(
-    card: Omit<IFoodCard, 'id'>,
+    card: Omit<IFoodCard, 'id' | 'image'>,
   ): Promise<void> {
     const cardsList = cards.map(c => {
       if (c.id !== editingCard.id) {

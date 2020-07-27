@@ -13,15 +13,16 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
+  image: File;
   img_url: string;
   type: IFoodType;
   price: string;
 }
 
 interface IProps {
-  card: IFoodCard;
+  card: Omit<IFoodCard, 'image'>;
   handleDelete: (id: string) => void;
-  handleEdit: (card: IFoodCard) => void;
+  handleEdit: (card: Omit<IFoodCard, 'image'>) => void;
 }
 
 const Card: React.FC<IProps> = ({ card, handleDelete, handleEdit }: IProps) => {
