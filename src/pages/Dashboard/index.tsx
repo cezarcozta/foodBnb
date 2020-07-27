@@ -99,12 +99,14 @@ const Dashboard: React.FC = () => {
 
   const handleSubmit = useCallback(async data => {
     const { type, minPrice, maxPrice } = data;
+
     const response = await api.get<IFoodCard[]>('/cards/', {
       params: {
         type,
         price: `${minPrice},${maxPrice}`,
       },
     });
+
     setCards(response.data);
   }, []);
 

@@ -35,7 +35,7 @@ interface ICreateFoodData {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddFoodCard: (card: Omit<ICreateFoodData, 'id'>) => void;
+  handleAddFoodCard: (card: ICreateFoodData) => void;
 }
 
 const ModalAddFoodCard: React.FC<IModalProps> = ({
