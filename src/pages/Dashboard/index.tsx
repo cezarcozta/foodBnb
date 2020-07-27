@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
 
 import api from '../../services/api';
 
@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   async function handleAddFoodCard(
-    foodCard: Omit<IFoodCard, 'id' | 'image'>,
+    foodCard: Omit<IFoodCard, 'id'>,
   ): Promise<void> {
     try {
       const { name, type, price } = foodCard;
