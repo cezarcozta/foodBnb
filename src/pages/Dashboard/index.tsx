@@ -52,12 +52,15 @@ const Dashboard: React.FC = () => {
     try {
       const { name, type, price, image } = foodCard;
 
-      const response = await api.post<IFoodCard>('/cards', {
-        name,
-        image,
-        type,
-        price,
-      });
+      const data = new FormData();
+
+      data.append('image', image);
+      data.append('name', name);
+      data.append('type', String(type));
+      data.append('price', price);
+
+      const response = await api.post('/cards', data);
+
       setCards([...cards, response.data]);
     } catch (err) {
       throw new Error(err.message);

@@ -35,7 +35,7 @@ interface ICreateFoodData {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddFoodCard: (card: Omit<ICreateFoodData, 'id' | 'img_url'>) => void;
+  handleAddFoodCard: (card: Omit<ICreateFoodData, 'id'>) => void;
 }
 
 const ModalAddFoodCard: React.FC<IModalProps> = ({
@@ -47,13 +47,8 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
 
   const [foodType, setFoodType] = useState<IFoodType[]>([]);
 
-  const [cardImage, setCardImage] = useState<File>();
-
-  // const handleImage = useCallback((image: File) => {}, []);
-
   const handleSubmit = useCallback(
     async ({ image, name, type, price }: ICreateFoodData) => {
-      console.log(image);
       handleAddFoodCard({
         image,
         name,
