@@ -1,11 +1,15 @@
-import React, { useRef, useCallback } from 'react';
+/* eslint-disable camelcase */
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 
 import { FiCheckSquare } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 
+import api from '../../services/api';
+
 import { Form } from './styles';
 import Modal from '../Modal';
 import Input from '../FilterForm/Input';
+import Select from '../FilterForm/Select';
 
 interface IFoodType {
   id: string;
@@ -15,12 +19,14 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
+  img_url: string;
   type: IFoodType;
   price: string;
 }
 
 interface ICreateFoodData {
   name: string;
+  img_url: string;
   type: IFoodType;
   price: string;
 }
@@ -38,13 +44,28 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
 }) => {
   const formRef = useRef<FormHandles>(null);
 
+  const [foodType, setFoodType] = useState<IFoodType[]>([]);
+
   const handleSubmit = useCallback(
-    async (data: ICreateFoodData) => {
+    async (data: ICreateFoodData, { reset }) => {
       handleAddFoodCard(data);
+
       setIsOpen();
+
+      reset();
     },
     [handleAddFoodCard, setIsOpen],
   );
+
+  useEffect(() => {
+    async function loadFoodTypes(): Promise<void> {
+      const response = await api.get('/foods');
+
+      setFoodType(response.data);
+    }
+
+    loadFoodTypes();
+  }, []);
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -55,7 +76,14 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
         <Input name="name" placeholder="Ex: Churrasco Premium" />
         <Input name="price" placeholder="Ex: 99.90" />
 
-        <Input name="type" placeholder="Ex: Chuurasco" />
+        <Select name="type" placeholder="Escolha o tipo de comida">
+          {foodType &&
+            foodType.map(type => (
+              <option key={type.id} value={type.id}>
+                {type.name}
+              </option>
+            ))}
+        </Select>
         <button type="submit">
           <p className="text">Adicionar Cardápio</p>
           <div className="icon">

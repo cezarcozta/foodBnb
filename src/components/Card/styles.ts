@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   background: #fff;
@@ -11,6 +11,8 @@ export const Container = styled.div`
     text-align: center;
 
     img {
+      max-width: 200px;
+      max-height: 200px;
       pointer-events: none;
       user-select: none;
     }

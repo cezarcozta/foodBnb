@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect, useCallback } from 'react';
 
@@ -18,6 +19,7 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
+  img_url: string;
   type: IFoodType;
   price: string;
 }
@@ -38,7 +40,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   async function handleAddFoodCard(
-    foodCard: Omit<IFoodCard, 'id'>,
+    foodCard: Omit<IFoodCard, 'id' | 'image'>,
   ): Promise<void> {
     try {
       const { name, type, price } = foodCard;
@@ -133,7 +135,6 @@ const Dashboard: React.FC = () => {
           <Card
             key={card.id}
             card={card}
-            types={card.type}
             handleDelete={handleDeleteFood}
             handleEdit={handleEditFood}
           />

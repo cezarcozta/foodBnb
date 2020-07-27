@@ -18,6 +18,7 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
+  image: string;
   type: IFoodType;
   price: string;
 }
@@ -47,21 +48,6 @@ const FilterForm: React.FC<IHeaderProps> = ({ openModal, handleSubmit }) => {
     loadFoodTypes();
   }, []);
 
-  // async function handleSubmit(event: FormEvent): Promise<void> {
-  //   event.preventDefault();
-
-  //   const { type, minPrice, maxPrice, option } = formData;
-
-  //   const response = await api.get('/cards/', {
-  //     params: {
-  //       type,
-  //       price: `${minPrice},${maxPrice}`,
-  //     },
-  //   });
-
-  //   setCards(response.data);
-  // }
-
   return (
     <Container>
       <header>
@@ -83,7 +69,8 @@ const FilterForm: React.FC<IHeaderProps> = ({ openModal, handleSubmit }) => {
             <Input type="text" name="minPrice" placeholder="Mínimo R$/Pessoa" />
             <label htmlFor="maxPrice">a:</label>
             <Input type="text" name="maxPrice" placeholder="Máximo R$/Pessoa" />
-            <button type="submit">
+
+            <button type="submit" name="searchBtn">
               <div className="icon-search">
                 <FiSearch size={18} />
               </div>
@@ -92,6 +79,7 @@ const FilterForm: React.FC<IHeaderProps> = ({ openModal, handleSubmit }) => {
           </Form>
 
           <button
+            name="addButton"
             type="button"
             onClick={() => {
               openModal();

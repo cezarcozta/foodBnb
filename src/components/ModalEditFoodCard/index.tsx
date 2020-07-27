@@ -1,12 +1,16 @@
-import React, { useRef, useCallback } from 'react';
+/* eslint-disable camelcase */
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 
 import { FiCheckSquare } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 
 import Modal from '../Modal';
 import Input from '../FilterForm/Input';
+import Select from '../FilterForm/Select';
 
 import { Form } from './styles';
+
+import api from '../../services/api';
 
 interface IFoodType {
   id: string;
@@ -16,12 +20,14 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
+  img_url: string;
   type: IFoodType;
   price: string;
 }
 
 interface ICreateFoodData {
   name: string;
+  img_url: string;
   type: IFoodType;
   price: string;
 }
@@ -41,6 +47,8 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
 }) => {
   const formRef = useRef<FormHandles>(null);
 
+  const [foodType, setFoodType] = useState<IFoodType[]>([]);
+
   const handleSubmit = useCallback(
     async (data: ICreateFoodData) => {
       handleUpdateFoodCard(data);
@@ -48,6 +56,16 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
     },
     [handleUpdateFoodCard, setIsOpen],
   );
+
+  useEffect(() => {
+    async function loadFoodTypes(): Promise<void> {
+      const response = await api.get('/foods');
+
+      setFoodType(response.data);
+    }
+
+    loadFoodTypes();
+  }, []);
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -58,7 +76,18 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
         <Input name="name" placeholder="Ex: Churrasco Premium" />
         <Input name="price" placeholder="Ex: 99.90" />
 
-        <Input name="type" type="select" placeholder="Ex: Chuurasco" />
+        <Select
+          name="type"
+          type="select"
+          placeholder="Escolha: o tipo de comida: "
+        >
+          {foodType &&
+            foodType.map(type => (
+              <option key={type.id} value={type.id}>
+                {type.name}
+              </option>
+            ))}
+        </Select>
         <button type="submit">
           <p className="text">Editar Cardápio</p>
           <div className="icon">

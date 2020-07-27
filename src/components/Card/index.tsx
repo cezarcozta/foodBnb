@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable camelcase */
+import React from 'react';
 
 import { FiEdit3, FiTrash } from 'react-icons/fi';
 
-import img from '../../assets/Churrasco_Tradicional.png';
 import { Container } from './styles';
-
-import api from '../../services/api';
 
 interface IFoodType {
   id: string;
@@ -15,35 +13,18 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
+  img_url: string;
   type: IFoodType;
   price: string;
 }
 
 interface IProps {
   card: IFoodCard;
-  types: IFoodType;
   handleDelete: (id: string) => void;
   handleEdit: (card: IFoodCard) => void;
 }
 
-const Card: React.FC<IProps> = ({
-  card,
-  types,
-  handleDelete,
-  handleEdit,
-}: IProps) => {
-  const [foodTypes, setFoodTypes] = useState<IFoodType[]>([]);
-
-  useEffect(() => {
-    async function loadFoodTypes(): Promise<void> {
-      await api.get('/foods').then(response => {
-        setFoodTypes(response.data);
-      });
-    }
-
-    loadFoodTypes();
-  }, []);
-
+const Card: React.FC<IProps> = ({ card, handleDelete, handleEdit }: IProps) => {
   function setEditingCard(): void {
     handleEdit(card);
   }
@@ -51,7 +32,7 @@ const Card: React.FC<IProps> = ({
   return (
     <Container>
       <header>
-        <img src={img} alt={card.name} />
+        <img src={card.img_url} alt={card.name} />
       </header>
       <section className="body">
         <main>
