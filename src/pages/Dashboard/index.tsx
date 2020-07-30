@@ -47,54 +47,61 @@ const Dashboard: React.FC = () => {
     loadFoodsCards();
   }, []);
 
-  async function handleAddFoodCard(foodCard: IAddFoodCard): Promise<void> {
-    try {
-      const { name, type, price, image } = foodCard;
+  const handleAddFoodCard = useCallback(
+    async (foodCard: IAddFoodCard): Promise<void> => {
+      try {
+        const { name, type, price, image } = foodCard;
 
-      const data = new FormData();
+        const data = new FormData();
 
-      data.append('image', image);
-      data.append('name', name);
-      data.append('type', String(type));
-      data.append('price', price);
+        data.append('image', image);
+        data.append('name', name);
+        data.append('type', String(type));
+        data.append('price', price);
 
-      const response = await api.post('/cards', data);
+        const response = await api.post('/cards', data);
 
-      setCards([...cards, response.data]);
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  }
-
-  async function handleUpdateFoodCard(
-    card: Omit<IFoodCard, 'id' | 'image'>,
-  ): Promise<void> {
-    const cardsList = cards.map(c => {
-      if (c.id !== editingCard.id) {
-        return c;
+        setCards([...cards, response.data]);
+      } catch (err) {
+        throw new Error(err.message);
       }
+    },
+    [cards],
+  );
 
-      return {
-        ...card,
+  const handleUpdateFoodCard = useCallback(
+    async (foodCard: Omit<IFoodCard, 'id' | 'image'>): Promise<void> => {
+      const cardsList = cards.map(c => {
+        if (c.id !== editingCard.id) {
+          return c;
+        }
+
+        return {
+          ...foodCard,
+          id: editingCard.id,
+        };
+      });
+
+      setCards(cardsList);
+
+      await api.put(`/cards/${editingCard.id}`, {
+        ...cards,
         id: editingCard.id,
-      };
-    });
+      });
+    },
+    [cards, editingCard.id],
+  );
 
-    setCards(cardsList);
+  const handleDeleteFood = useCallback(
+    async (id: string): Promise<void> => {
+      await api.delete(`/cards/${id}`);
 
-    await api.put(`/cards/${editingCard.id}`, {
-      ...cards,
-      id: editingCard.id,
-    });
-  }
+      const filterCards = cards.filter(card => card.id !== id);
 
-  async function handleDeleteFood(id: string): Promise<void> {
-    await api.delete(`/cards/${id}`);
-
-    const filterCards = cards.filter(card => card.id !== id);
-
-    setCards(filterCards);
-  }
+      setCards(filterCards);
+    },
+    [cards],
+  );
 
   const handleSubmit = useCallback(async data => {
     const { type, minPrice, maxPrice } = data;
