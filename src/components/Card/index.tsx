@@ -20,9 +20,9 @@ interface IFoodCard {
 }
 
 interface IProps {
-  card: Omit<IFoodCard, 'image'>;
+  card: IFoodCard;
   handleDelete: (id: string) => void;
-  handleEdit: (card: Omit<IFoodCard, 'image'>) => void;
+  handleEdit: (card: IFoodCard) => void;
 }
 
 const Card: React.FC<IProps> = ({ card, handleDelete, handleEdit }: IProps) => {

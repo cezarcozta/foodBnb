@@ -21,15 +21,16 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
+  image: string;
   img_url: string;
-  type: IFoodType;
+  type: string;
   price: string;
 }
 
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleUpdateFoodCard: (card: Omit<IFoodCard, 'id'>) => void;
+  handleUpdateFoodCard: (card: IFoodCard) => void;
   editingFood: IFoodCard;
 }
 

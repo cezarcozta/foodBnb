@@ -19,6 +19,7 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
+  image: string;
   img_url: string;
   type: IFoodType;
   price: string;
@@ -70,26 +71,16 @@ const Dashboard: React.FC = () => {
   );
 
   const handleUpdateFoodCard = useCallback(
-    async (foodCard: Omit<IFoodCard, 'id' | 'image'>): Promise<void> => {
-      const cardsList = cards.map(c => {
-        if (c.id !== editingCard.id) {
-          return c;
-        }
+    async (foodCard: IFoodCard): Promise<void> => {
+      const updateFoodCard = cards.filter(card => card.id === foodCard.id);
 
-        return {
-          ...foodCard,
-          id: editingCard.id,
-        };
+      const response = await api.put(`/cards/${foodCard.id}`, {
+        updateFoodCard,
       });
 
-      setCards(cardsList);
-
-      await api.put(`/cards/${editingCard.id}`, {
-        ...cards,
-        id: editingCard.id,
-      });
+      setCards([...cards, response.data]);
     },
-    [cards, editingCard.id],
+    [cards],
   );
 
   const handleDeleteFood = useCallback(
