@@ -13,6 +13,8 @@ export const Container = styled.div`
     justify-content: center;
 
     img {
+      width: 405px;
+      height: 202px;
       pointer-events: none;
       user-select: none;
     }
