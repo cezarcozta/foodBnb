@@ -58,7 +58,9 @@ const FilterForm: React.FC<IHeaderProps> = ({ openModal, handleSubmit }) => {
             <label htmlFor="type">Tipo de comida:</label>
 
             <Select type="select" name="type">
-              <option value="0">Selecione o tipo de comida</option>
+              <option value="0" text-color="#ffb84d">
+                Selecione o tipo de comida
+              </option>
               {foodType &&
                 foodType.map(type => (
                   <option key={type.id} value={type.id}>

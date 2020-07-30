@@ -5,20 +5,13 @@ import { Form as Unform } from '@unform/web';
 export const Form = styled(Unform)`
   padding: 18px 10px;
   display: flex;
-
-  h1 {
-    font-weight: 600;
-    font-size: 36px;
-    line-height: 36px;
-    margin-bottom: 40px;
-  }
 `;
 
 export const Container = styled.div`
   background: #ffffff;
   padding: 30px 0;
-  border-bottom: 1px solid #000;
-  color: #000;
+  border-bottom: 2px solid #ffb84d;
+  color: #ff9900;
 
   header {
     width: 1280px;
@@ -35,15 +28,18 @@ export const Container = styled.div`
         font-weight: bold;
 
         label {
-          padding: 5px;
+          padding: 15px;
+        }
 
-          select {
-            margin-left: 10px;
-            margin-right: 25px;
-          }
+        select,
+        input {
+          border: 1px solid #ffb84d;
+          background: #fff;
+          height: 35px;
 
-          input {
-            margin-left: 10px;
+          ::placeholder {
+            color: #ffb84d;
+            text-align: center;
           }
         }
 
@@ -54,7 +50,7 @@ export const Container = styled.div`
           height: 50px;
           border: 0;
           color: #fff;
-          background: #ff9900;
+          background: #ffb84d;
           margin-left: 10px;
 
           display: flex;

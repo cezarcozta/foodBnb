@@ -8,11 +8,11 @@ export const Container = styled.div`
     background: #ffb84d;
     border-radius: 8px 8px 0px 0px;
     transition: 0.3s opacity;
-    text-align: center;
+
+    display: flex;
+    justify-content: center;
 
     img {
-      max-width: 200px;
-      max-height: 200px;
       pointer-events: none;
       user-select: none;
     }
@@ -21,7 +21,7 @@ export const Container = styled.div`
   section.body {
     padding: 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 
     h2 {
@@ -30,7 +30,7 @@ export const Container = styled.div`
     }
 
     h4 {
-      color: #d3d3d3;
+      color: #b3b3b3;
       font-weight: bold;
     }
 
@@ -38,7 +38,7 @@ export const Container = styled.div`
       font-style: normal;
       font-size: 24px;
       line-height: 34px;
-      color: yellow;
+      color: #ffb84d;
 
       b {
         font-weight: 600;
@@ -52,7 +52,7 @@ export const Container = styled.div`
     align-items: center;
 
     padding: 20px 30px;
-    background: #e4e4eb;
+    background: #ffb84d;
     border-radius: 0px 0px 8px 8px;
 
     div.icon-container {
@@ -67,7 +67,7 @@ export const Container = styled.div`
         transition: 0.1s;
 
         svg {
-          color: #3d3d4d;
+          color: #ff9900;
         }
 
         & + button {

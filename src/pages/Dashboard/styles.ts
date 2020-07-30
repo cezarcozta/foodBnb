@@ -26,7 +26,7 @@ export const Form = styled(Unform)`
 `;
 
 export const Title = styled.h1`
-  color: #000;
+  color: #ff9900;
   margin: 15px;
   padding: 10px;
 `;

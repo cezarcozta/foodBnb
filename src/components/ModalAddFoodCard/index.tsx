@@ -81,6 +81,7 @@ const ModalAddFoodCard: React.FC<IModalProps> = ({
         <Input name="price" placeholder="Ex: 99.90" />
 
         <Select name="type" placeholder="Escolha o tipo de comida">
+          <option value="0">Selecione o tipo de comida</option>
           {foodType &&
             foodType.map(type => (
               <option key={type.id} value={type.id}>

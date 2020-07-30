@@ -71,11 +71,8 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
         <Input name="name" type="text" placeholder="Ex: Churrasco Premium" />
         <Input name="price" type="text" placeholder="Ex: 99.90" />
 
-        <Select
-          name="type"
-          type="select"
-          placeholder="Escolha: o tipo de comida: "
-        >
+        <Select name="type" type="select">
+          <option value="0">Selecione o tipo de comida</option>
           {foodType &&
             foodType.map(type => (
               <option key={type.id} value={type.id}>

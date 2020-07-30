@@ -13,6 +13,13 @@ export const Form = styled(Unform)`
     margin-bottom: 40px;
   }
 
+  select,
+  input {
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid #ffb84d;
+  }
+
   button {
     margin-top: 48px;
     align-self: flex-end;
