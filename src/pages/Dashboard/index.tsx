@@ -19,7 +19,7 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
-  image: string;
+  image: File;
   img_url: string;
   type: IFoodType;
   price: string;
@@ -32,9 +32,20 @@ interface IAddFoodCard {
   price: string;
 }
 
+interface IUpdateFoodCard {
+  id: string;
+  image: File;
+  name: string;
+  img_url: string;
+  type: IFoodType;
+  price: string;
+}
+
 const Dashboard: React.FC = () => {
   const [cards, setCards] = useState<IFoodCard[]>([]);
-  const [editingCard, setEditingCard] = useState<IFoodCard>({} as IFoodCard);
+  const [editingCard, setEditingCard] = useState<IUpdateFoodCard>(
+    {} as IUpdateFoodCard,
+  );
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
@@ -57,7 +68,7 @@ const Dashboard: React.FC = () => {
 
         data.append('image', image);
         data.append('name', name);
-        data.append('type', String(type));
+        data.append('type', String(type.id));
         data.append('price', price);
 
         const response = await api.post('/cards', data);
@@ -71,16 +82,36 @@ const Dashboard: React.FC = () => {
   );
 
   const handleUpdateFoodCard = useCallback(
-    async (foodCard: IFoodCard): Promise<void> => {
-      const updateFoodCard = cards.filter(card => card.id === foodCard.id);
+    async (foodCard: IUpdateFoodCard): Promise<void> => {
+      try {
+        const cardsList = cards.map(card => {
+          if (card.id !== editingCard.id) {
+            return card;
+          }
 
-      const response = await api.put(`/cards/${foodCard.id}`, {
-        updateFoodCard,
-      });
+          return {
+            ...card,
+            id: editingCard.id,
+          };
+        });
 
-      setCards([...cards, response.data]);
+        setCards(cardsList);
+
+        const data = new FormData();
+
+        data.append('image', foodCard.image);
+        data.append('name', foodCard.name);
+        data.append('type', String(foodCard.type));
+        data.append('price', foodCard.price);
+
+        const response = await api.put(`/cards/${editingCard.id}`, data);
+
+        setCards([...cards, response.data]);
+      } catch (error) {
+        throw new Error(error.message);
+      }
     },
-    [cards],
+    [cards, editingCard],
   );
 
   const handleDeleteFood = useCallback(
@@ -115,8 +146,9 @@ const Dashboard: React.FC = () => {
     setEditModalOpen(!editModalOpen);
   }
 
-  function handleEditFood(card: IFoodCard): void {
+  function handleEditFood(card: IUpdateFoodCard): void {
     setEditingCard(card);
+
     toggleEditModal();
   }
 
@@ -133,7 +165,7 @@ const Dashboard: React.FC = () => {
       <ModalEditFood
         isOpen={editModalOpen}
         setIsOpen={toggleEditModal}
-        editingFood={editingCard}
+        editingCard={editingCard}
         handleUpdateFoodCard={handleUpdateFoodCard}
       />
 

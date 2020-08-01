@@ -21,32 +21,41 @@ interface IFoodType {
 interface IFoodCard {
   id: string;
   name: string;
-  image: string;
+  image: File;
   img_url: string;
-  type: string;
+  type: IFoodType;
+  price: string;
+}
+
+interface IUpdateFoodData {
+  id: string;
+  name: string;
+  image: File;
+  img_url: string;
+  type: IFoodType;
   price: string;
 }
 
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleUpdateFoodCard: (card: IFoodCard) => void;
-  editingFood: IFoodCard;
+  handleUpdateFoodCard: (card: IUpdateFoodData) => void;
+  editingCard: IUpdateFoodData;
 }
 
 const ModalEditFoodCard: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
   handleUpdateFoodCard,
-  editingFood,
+  editingCard,
 }) => {
   const formRef = useRef<FormHandles>(null);
 
   const [foodType, setFoodType] = useState<IFoodType[]>([]);
 
   const handleSubmit = useCallback(
-    async (data: IFoodCard) => {
-      handleUpdateFoodCard(data);
+    async (card: IUpdateFoodData) => {
+      handleUpdateFoodCard(card);
 
       setIsOpen();
     },
@@ -65,14 +74,14 @@ const ModalEditFoodCard: React.FC<IModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form ref={formRef} onSubmit={handleSubmit} initialData={editingFood}>
+      <Form ref={formRef} onSubmit={handleSubmit} initialData={editingCard}>
         <h1>Editar Cardápio</h1>
-        <InputImage type="file" name="image" />
+        <InputImage name="image" />
 
-        <Input name="name" type="text" placeholder="Ex: Churrasco Premium" />
-        <Input name="price" type="text" placeholder="Ex: 99.90" />
+        <Input name="name" placeholder="Ex: Churrasco Premium" />
+        <Input name="price" placeholder="Ex: 99.90" />
 
-        <Select name="type" type="select">
+        <Select name="type">
           <option value="0">Selecione o tipo de comida</option>
           {foodType &&
             foodType.map(type => (

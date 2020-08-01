@@ -10,7 +10,7 @@ interface IFoodType {
   name: string;
 }
 
-interface IFoodCard {
+interface IUpdateFoodData {
   id: string;
   name: string;
   image: File;
@@ -18,11 +18,10 @@ interface IFoodCard {
   type: IFoodType;
   price: string;
 }
-
 interface IProps {
-  card: IFoodCard;
+  card: IUpdateFoodData;
   handleDelete: (id: string) => void;
-  handleEdit: (card: IFoodCard) => void;
+  handleEdit: (card: IUpdateFoodData) => void;
 }
 
 const Card: React.FC<IProps> = ({ card, handleDelete, handleEdit }: IProps) => {

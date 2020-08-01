@@ -17,14 +17,6 @@ interface IFoodType {
   name: string;
 }
 
-interface IFoodCard {
-  id: string;
-  name: string;
-  img_url: string;
-  type: IFoodType;
-  price: string;
-}
-
 interface ICreateFoodData {
   name: string;
   image: File;
@@ -35,7 +27,7 @@ interface ICreateFoodData {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddFoodCard: (card: ICreateFoodData) => void;
+  handleAddFoodCard: (data: ICreateFoodData) => void;
 }
 
 const ModalAddFoodCard: React.FC<IModalProps> = ({
